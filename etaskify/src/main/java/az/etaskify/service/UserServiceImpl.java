@@ -1,6 +1,7 @@
 package az.etaskify.service;
 
 import az.etaskify.dto.UserDto;
+import az.etaskify.enums.AuthorityName;
 import az.etaskify.mapper.UserMapper;
 import az.etaskify.model.Organization;
 import az.etaskify.repository.UserRepository;
@@ -25,6 +26,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final OrganizationService organizationService;
+    private final PasswordService passwordService;
 
     @Override
     public List<User> findAll() {
@@ -47,12 +49,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public ResponseEntity<User> saveOrUpdateUserByOwner(User user) {
+    public ResponseEntity<UserDto> saveOrUpdateUser(UserDto userDto) {
         try {
-            System.out.println("wwwwwwwwwww" + SecurityContextUtility.getLoggedUsername());
-//            Organization organization = organizationService.findOrganizationByOwnerId(ownerId);
-//            user.setOrganization(organization);
-            return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+            User user = UserMapper.INSTANCE.toEntity(userDto);
+            Organization organization = organizationService.findOrganizationByEmail(SecurityContextUtility.getLoggedUsername());
+            user.setOrganization(organization);
+            user.setAuthority(AuthorityName.ROLE_USER);
+            user.setPassword(passwordService.bcryptEncryptor("123456"));
+            UserMapper.INSTANCE.toDto(userRepository.save(user));
+            return new ResponseEntity<>( HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -60,9 +65,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public ResponseEntity<List<UserDto>> organizationUsersByOwner(Long ownerId) {
+    public ResponseEntity<List<UserDto>> organizationUsers() {
         try {
-            Organization organization = organizationService.findOrganizationByOwnerId(ownerId);
+            Organization organization = organizationService.findOrganizationByEmail(SecurityContextUtility.getLoggedUsername());
             List<User> userList = organization.getUsers();
             List<UserDto> userDtoList = UserMapper.INSTANCE.toUserDtoList(userList);
             return new ResponseEntity<>(userDtoList, HttpStatus.OK);

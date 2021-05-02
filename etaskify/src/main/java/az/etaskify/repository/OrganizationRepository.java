@@ -12,6 +12,9 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
 
 
 @Query(value = "select o from Organization  o join  o.users u where u.id=:userId")
-@Transactional
     Organization findOrganizationByOwnerId(Long userId);
+
+
+@Query(value = "select o from Organization  o join  o.users u where u.email=:email")
+    Organization findOrganizationByEmail(String email);
 }

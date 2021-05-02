@@ -17,7 +17,7 @@ import javax.validation.Valid;
 public class OrganizationController {
     private final OrganizationService organizationService;
 
-    @RequestMapping(value = "/sign-up") //where is method type
+    @RequestMapping(value = "/sign-up")
     public ResponseEntity<Organization> signUpOrganization( @RequestBody OrganizationDto organizationDto) {
        return organizationService.saveOrganization(organizationDto);
     }

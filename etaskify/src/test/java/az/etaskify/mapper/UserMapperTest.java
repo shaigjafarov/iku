@@ -19,7 +19,7 @@ class UserMapperTest {
         user.setName("ilku");
         user.setId(21l);
         user.setPassword("123124");
-        user.setUserName("ikuas");
+     //   user.setUserName("ikuas");
         List<User> singleton = Collections.singletonList(user);
 
         //UserMapper.INSTANCE.toDtoList(singleton).forEach(System.out::println);

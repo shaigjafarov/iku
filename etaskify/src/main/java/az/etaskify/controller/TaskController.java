@@ -19,8 +19,9 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping(value = "/save")
-    public ResponseEntity<Task> assignTask(@Valid @RequestBody TaskDto taskDto, @RequestParam Long id ) {
-        return taskService.saveOrUpdateTaskByOwner(taskDto, id);
+    public ResponseEntity<Task> assignTask( @RequestBody TaskDto taskDto ) {
+        System.out.println("nese yazda bura ");
+        return taskService.saveOrUpdateTask(taskDto);
     }
 
 

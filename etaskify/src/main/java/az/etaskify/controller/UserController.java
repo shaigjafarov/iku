@@ -22,14 +22,14 @@ public class UserController {
     private final OrganizationService organizationService;
 
     @PostMapping(value = "/save")
-    public ResponseEntity<User> signUpOrganization(@Valid @RequestBody User user) {
-        return userService.saveOrUpdateUserByOwner(user);
+    public ResponseEntity<UserDto> signUpOrganization(@Valid @RequestBody UserDto userDto) {
+        return userService.saveOrUpdateUser(userDto);
     }
 
 
     @GetMapping(value = "/organizationUsers")
-    public ResponseEntity<List<UserDto>> organizationUsers (@RequestParam Long id) {
-        return userService.organizationUsersByOwner(id);
+    public ResponseEntity<List<UserDto>> organizationUsers (){
+        return userService.organizationUsers();
     }
 
 

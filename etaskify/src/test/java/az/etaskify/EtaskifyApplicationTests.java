@@ -13,7 +13,7 @@ class EtaskifyApplicationTests {
 EmailServiceImpl emailService;
 	@Test
 	void contextLoads() {
-		emailService.sendSimpleMessage("Dsf","Dg","dfg");
+		emailService.sendMail("ilkin.semedov96@gmail.com","BakiDan","Salam");
 	}
 
 }
