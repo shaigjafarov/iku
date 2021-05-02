@@ -2,7 +2,7 @@ package az.etaskify.service;
 
 import az.etaskify.annotation.MailSender;
 import az.etaskify.dto.TaskDto;
-import az.etaskify.exception.UserNotExistException;
+import az.etaskify.exception.ApiException;
 import az.etaskify.mapper.TaskMapper;
 import az.etaskify.mapper.UserMapper;
 import az.etaskify.model.Organization;
@@ -29,7 +29,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public ResponseEntity saveOrUpdateTaskByOwner(TaskDto taskDto, Long id) {
         Organization organization = organizationService.findOrganizationByOwnerId(id);
-        ValidationObjects.controlObjectNotNull(organization, "organization not exist");
+        ValidationObjects.controlObjectNotNull(organization);
         List<User> organizationUsers = organization.getUsers();
         List<User> assignees = UserMapper.INSTANCE.toUserList(taskDto.getUserDtoList());
         checkUsersExist(organizationUsers, assignees);
@@ -40,7 +40,6 @@ public class TaskServiceImpl implements TaskService {
         task.setOrganization(organization);
         taskRepository.save(task);
         return new ResponseEntity<>(task, HttpStatus.OK);
-
 
     }
 
@@ -54,7 +53,7 @@ public class TaskServiceImpl implements TaskService {
     private void checkUsersExist(List<User> existUsers, List<User> receivedUsers) {
         List<User> userList = receivedUsers.stream().filter(user -> !existUsers.contains(user)).collect(Collectors.toList());
         if (!userList.isEmpty()) {
-            throw new UserNotExistException(userList.toString());
+            throw new ApiException("User not exist",userList.toString(), HttpStatus.NOT_FOUND, null);
         }
 
 

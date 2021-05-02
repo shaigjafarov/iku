@@ -19,8 +19,6 @@ public class MailSenderExecutionAspect {
     @AfterReturning("@annotation(az.etaskify.annotation.MailSender) && args(taskDto,id)")
     public void mailSenderExecution(TaskDto taskDto, Long id)  {
         log.info("You must write log of method");
-
         taskDto.getUserDtoList().forEach( userDto ->emailService.sendMail(userDto.getEmail(),taskDto.getTitle(),taskDto.getDescription()) );
-        log.info("From " +"Saiq@gmail.com" + " To"+ " ilkin@gmail.com" + " mail send successful");
     }
 }

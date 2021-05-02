@@ -1,7 +1,7 @@
 package az.etaskify.service;
 
 import az.etaskify.dto.OrganizationDto;
-import az.etaskify.exception.AlreadyExistsException;
+import az.etaskify.exception.ApiException;
 import az.etaskify.mapper.OrganizationMapper;
 import az.etaskify.mapper.UserOwnerMapper;
 import az.etaskify.model.Organization;
@@ -28,27 +28,29 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public ResponseEntity<Organization> saveOrganization(OrganizationDto organizationDto) {
-        ValidationObjects.controlObjectNotNull(organizationDto.getOwnerDto(), "Owner does not null.");
+        ValidationObjects.controlObjectNotNull(organizationDto.getOwnerDto());
         String rawPassword = organizationDto.getOwnerDto().getPassword();
-        if (userRepository.findUserEntityByEmail(organizationDto.getOwnerDto().getEmail()).isPresent()) {
-            throw new AlreadyExistsException("email already exist");
+        String email = organizationDto.getOwnerDto().getEmail();
+        if (userRepository.findUserEntityByEmail(email).isPresent()) {
+            throw new ApiException("Email already exist ", email, HttpStatus.NOT_ACCEPTABLE, null);
         }
         organizationDto.getOwnerDto().setPassword(passwordService.bcryptEncryptor(rawPassword));
-        Organization organization = OrganizationMapper.INSTANCE.toEntity(organizationDto);
-        User user = UserOwnerMapper.INSTANCE.toEntity(organizationDto.getOwnerDto());
-        user.setOrganization(organization);
-        organization.setUsers(Collections.singletonList(user));
+        Organization organization = setOrganization(organizationDto);
         Organization organizationInDb = organizationRepository.save(organization);
         return new ResponseEntity<>(organizationInDb, HttpStatus.OK);
     }
 
     @Override
     public Organization findOrganizationByOwnerId(Long userId) {
-        try {
-            return organizationRepository.findOrganizationByOwnerId(userId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return organizationRepository.findOrganizationByOwnerId(userId);
     }
+
+    private Organization setOrganization(OrganizationDto organizationDto){
+        Organization organization = OrganizationMapper.INSTANCE.toEntity(organizationDto);
+        User user = UserOwnerMapper.INSTANCE.toEntity(organizationDto.getOwnerDto());
+        user.setOrganization(organization);
+        organization.setUsers(Collections.singletonList(user));
+        return organization;
+    }
+
 }
