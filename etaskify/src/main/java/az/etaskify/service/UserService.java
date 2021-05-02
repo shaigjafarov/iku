@@ -12,7 +12,7 @@ public interface UserService {
 
     ResponseEntity<User> saveOrUpdateUser(User user);
 
-    ResponseEntity<User> saveOrUpdateUserByOwner(User user, Long id);
+    ResponseEntity<User> saveOrUpdateUserByOwner(User user);
 
     ResponseEntity<List<UserDto>> organizationUsersByOwner(Long id);
 }

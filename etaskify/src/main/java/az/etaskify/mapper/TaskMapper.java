@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import javax.persistence.ManyToOne;
+import java.util.List;
 
 @Mapper
 public interface TaskMapper {
@@ -16,5 +17,9 @@ public interface TaskMapper {
     Task toEntity(TaskDto taskDto);
 
     TaskDto toDto(Task task);
+
+    List<TaskDto> toTaskDtoList(List<Task> tasks);
+
+    List<Task> toTaskList(List<TaskDto> taskDtos);
 
 }

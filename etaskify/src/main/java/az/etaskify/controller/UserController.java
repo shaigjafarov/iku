@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -21,8 +22,8 @@ public class UserController {
     private final OrganizationService organizationService;
 
     @PostMapping(value = "/save")
-    public ResponseEntity<User> signUpOrganization(@RequestBody User user, @RequestParam Long id) {
-        return userService.saveOrUpdateUserByOwner(user, id);
+    public ResponseEntity<User> signUpOrganization(@Valid @RequestBody User user) {
+        return userService.saveOrUpdateUserByOwner(user);
     }
 
 

@@ -1,42 +1,26 @@
 package az.etaskify.aspect;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
+import az.etaskify.dto.TaskDto;
+import az.etaskify.service.EmailServiceImpl;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StopWatch;
-
-import java.util.Arrays;
 
 @Aspect
 @Component
+@RequiredArgsConstructor
+@Slf4j
 public class MailSenderExecutionAspect {
 
-    @Around("@annotation(az.etaskify.annotation.MailSender)")
-    public void mailSenderExecution(ProceedingJoinPoint joinPoint) throws Throwable {
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+    private final EmailServiceImpl emailService;
 
-        System.out.println("full method description: " + signature.getMethod());
-        System.out.println("method name: " + signature.getMethod().getName());
-        System.out.println("declaring type: " + signature.getDeclaringType());
+    @AfterReturning("@annotation(az.etaskify.annotation.MailSender) && args(taskDto,id)")
+    public void mailSenderExecution(TaskDto taskDto, Long id)  {
+        log.info("You must write log of method");
 
-        // Method args
-        System.out.println("Method args names:");
-        Arrays.stream(signature.getParameterNames())
-                .forEach(s -> System.out.println("arg name: " + s));
-
-        System.out.println("Method args types:");
-        Arrays.stream(signature.getParameterTypes())
-                .forEach(s -> System.out.println("arg type: " + s));
-
-        System.out.println("Method args values:");
-        Arrays.stream(joinPoint.getArgs())
-                .forEach(o -> System.out.println("arg value: " + o.toString()));
-
-
+        taskDto.getUserDtoList().forEach( userDto ->emailService.sendMail(userDto.getEmail(),taskDto.getTitle(),taskDto.getDescription()) );
+        log.info("From " +"Saiq@gmail.com" + " To"+ " ilkin@gmail.com" + " mail send successful");
     }
 }
-
-

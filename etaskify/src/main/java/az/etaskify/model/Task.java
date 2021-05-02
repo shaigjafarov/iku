@@ -32,4 +32,9 @@ public class Task extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User createdBy;
+
+    @ManyToOne
+    @JoinColumn(name = "organization_id")
+    private Organization organization;
+
 }

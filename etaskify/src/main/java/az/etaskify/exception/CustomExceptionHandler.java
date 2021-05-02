@@ -3,8 +3,10 @@ package az.etaskify.exception;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -32,4 +34,33 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         errors.addAll(fieldErrors);
         errors.addAll(globalErrors);
         return new ResponseEntity<>(errors, headers, status);
-    }}
+    }
+
+    @ExceptionHandler({UserNotExistException.class})
+    public ResponseEntity<Object> userNotExistException(
+            final UserNotExistException ex) {
+     //   logger.error("User already exists", ex);
+        return new ResponseEntity<>("User not exist "+ex.getMessage(),  HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ValidationException.class})
+    public ResponseEntity<Object> validationException(final ValidationException ex) {
+     //   logger.error("User already exists", ex);
+        return new ResponseEntity<>(ex.getMessage(),  HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({UsernameNotFoundException.class})
+    public ResponseEntity<Object> validationException(final UsernameNotFoundException ex) {
+     //   logger.error("User already exists", ex);
+        return new ResponseEntity<>(ex.getMessage(),  HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler({AlreadyExistsException.class})
+    public ResponseEntity<Object> validationException(final AlreadyExistsException ex) {
+     //   logger.error("User already exists", ex);
+        return new ResponseEntity<>(ex.getMessage(),  HttpStatus.BAD_REQUEST);
+    }
+
+
+}

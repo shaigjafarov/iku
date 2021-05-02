@@ -1,19 +1,23 @@
 package az.etaskify.model;
 
+import az.etaskify.enums.AuthorityName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 @Data
 @Entity
-public class User extends AbstractEntity {
+public class User extends AbstractEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,19 +29,15 @@ public class User extends AbstractEntity {
     @Column(nullable = false)
     @Email
     private String email;
-    @Column(nullable = false)
-    @NotBlank
-    private String userName;
 
 
     @Column(nullable = false)
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",message = "The password must be at least 6 characters in length." +
-            "Only alphanumeric characters.")
+//    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",message = "The password must be at least 6 characters in length." +
+//            "Only alphanumeric characters.")
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name ="role_id")
-    private Role role;
+    @Enumerated(EnumType.STRING)
+    private AuthorityName authority;
 
     @ManyToMany(mappedBy = "assignees")
     private List<Task> tasks;
@@ -77,4 +77,40 @@ public class User extends AbstractEntity {
                 "id=" + id +
                 '}';
     }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 }
