@@ -1,8 +1,7 @@
 package az.etaskify.service;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,12 +11,12 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class EmailServiceImpl implements EmailService {
 
 
     private final JavaMailSender emailSender;
     private final Environment environment;
-    private static final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
 
     @Override
     public void sendMail(String to, String subject, String text) {
@@ -28,10 +27,9 @@ public class EmailServiceImpl implements EmailService {
             message.setSubject(subject);
             message.setText(text);
             emailSender.send(message);
-            logger.info("to "+ to+" subject "+ subject + " text " +text);
+            log.debug("Success sending mail to {} .", to);
         } catch (Exception e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
+            log.error("Fail sending mail to {} .", to, e);
         }
 
     }

@@ -17,16 +17,16 @@ import java.util.List;
 public class TaskDto {
 
     private Long id;
-//    @NotBlank
+    @NotBlank
     private String title;
-//    @NotBlank
+    @NotBlank
     private String description;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDatetimeDeserializer.class)
-//    @NotNull
+    @NotNull
     private LocalDateTime deadline;
-//    @NotNull
+    @NotNull
     private Status status;
-//    @Valid
+    @Valid
     private List<UserDto> userDtoList;
 }

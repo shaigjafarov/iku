@@ -22,26 +22,24 @@ public class User extends AbstractEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    @NotBlank
     private String name;
-    @NotBlank
     private String surname;
-    @Column(nullable = false)
     @Email
+    @Column(unique = true,nullable = false)
     private String email;
 
 
     @Column(nullable = false)
-//    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",message = "The password must be at least 6 characters in length." +
-//            "Only alphanumeric characters.")
     private String password;
 
     @Enumerated(EnumType.STRING)
     private AuthorityName authority;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "assignees")
     private List<Task> tasks;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "createdBy")
     private List<Task> ownerTasks;
 

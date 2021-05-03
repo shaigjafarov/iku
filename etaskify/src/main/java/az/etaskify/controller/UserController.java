@@ -19,7 +19,6 @@ import java.util.List;
 public class UserController {
 
     private  final UserService userService;
-    private final OrganizationService organizationService;
 
     @PostMapping(value = "/save")
     public ResponseEntity<UserDto> signUpOrganization(@Valid @RequestBody UserDto userDto) {
@@ -27,7 +26,7 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/organizationUsers")
+    @GetMapping(value = "/organization/users")
     public ResponseEntity<List<UserDto>> organizationUsers (){
         return userService.organizationUsers();
     }

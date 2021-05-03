@@ -19,15 +19,14 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping(value = "/save")
-    public ResponseEntity<Task> assignTask( @RequestBody TaskDto taskDto ) {
-        System.out.println("nese yazda bura ");
+    public ResponseEntity<String> assignTask( @Valid @RequestBody TaskDto taskDto ) {
         return taskService.saveOrUpdateTask(taskDto);
     }
 
 
-    @GetMapping("/tasks")
-    public ResponseEntity<List<TaskDto>> getTasks( @RequestParam Long id ) {
-        return taskService.getTaskById(id);
+    @GetMapping("/organization/tasks")
+    public ResponseEntity<List<TaskDto>> getTasks( ) {
+        return taskService.getTasksOrganization();
     }
 
 

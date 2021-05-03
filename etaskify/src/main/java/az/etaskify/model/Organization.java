@@ -1,5 +1,6 @@
 package az.etaskify.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.Nullable;
 import lombok.Data;
@@ -31,7 +32,16 @@ public class Organization extends AbstractEntity {
     private List<User> users;
 
     @OneToMany(mappedBy = "organization")
+    @JsonIgnore
     private List<Task> tasks;
 
-
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }

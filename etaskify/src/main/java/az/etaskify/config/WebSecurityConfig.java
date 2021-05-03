@@ -48,8 +48,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/auth/sign-in").permitAll()
                 .antMatchers("/organization/sign-up").permitAll()
-                .antMatchers( "/user/**").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers( "/task/save").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers( "/user/**","/task/save").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers( "/task/organization/tasks").hasAnyAuthority("ROLE_ADMIN","ROLE_USER")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

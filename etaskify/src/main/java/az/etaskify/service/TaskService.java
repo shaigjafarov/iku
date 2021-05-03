@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface TaskService {
-    ResponseEntity<Task> saveOrUpdateTask(TaskDto taskDto);
+    ResponseEntity<String> saveOrUpdateTask(TaskDto taskDto);
 
-    ResponseEntity<List<TaskDto>> getTaskById(Long id);
+    ResponseEntity<List<TaskDto>> getTasksOrganization();
 }

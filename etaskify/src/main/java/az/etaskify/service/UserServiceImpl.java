@@ -8,7 +8,9 @@ import az.etaskify.repository.UserRepository;
 import az.etaskify.model.User;
 import az.etaskify.util.SecurityContextUtility;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,36 +20,23 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final OrganizationService organizationService;
     private final PasswordService passwordService;
+    private final Environment environment;
 
-    @Override
-    public List<User> findAll() {
-        try {
-            return userRepository.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
-    @Override
-    public ResponseEntity<User> saveOrUpdateUser(User user) {
-        try {
-            return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
+
+    @Transactional
     @Override
     public ResponseEntity<UserDto> saveOrUpdateUser(UserDto userDto) {
         try {
@@ -55,11 +44,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             Organization organization = organizationService.findOrganizationByEmail(SecurityContextUtility.getLoggedUsername());
             user.setOrganization(organization);
             user.setAuthority(AuthorityName.ROLE_USER);
-            user.setPassword(passwordService.bcryptEncryptor("123456"));
+            user.setPassword(passwordService.bcryptEncryptor(environment.getProperty("")));
             UserMapper.INSTANCE.toDto(userRepository.save(user));
-            return new ResponseEntity<>( HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
-            e.printStackTrace();
+
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
