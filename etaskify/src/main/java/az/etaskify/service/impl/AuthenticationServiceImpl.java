@@ -1,9 +1,11 @@
-package az.etaskify.service;
+package az.etaskify.service.impl;
 
 
 import az.etaskify.config.JwtTokenUtil;
 import az.etaskify.dto.AuthRequest;
 import az.etaskify.dto.AuthToken;
+import az.etaskify.exception.InvalidCredentialsExceptions;
+import az.etaskify.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,16 +26,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
-        } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Username or password is incorrect", e);
+        } catch (Exception e) {
+            throw new InvalidCredentialsExceptions("Username or password is incorrect", e);
         }
 
-        String token = jwtTokenUtil.generateToken(authRequest.getEmail());
+    String token = jwtTokenUtil.generateToken(authRequest.getEmail());
 
         return AuthToken
                 .builder()
                 .token(token)
                 .username(authRequest.getEmail())
-                .build();
+            .build();
     }
 }

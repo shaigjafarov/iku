@@ -1,4 +1,4 @@
-package az.etaskify.service;
+package az.etaskify.service.impl;
 
 import az.etaskify.dto.TaskDto;
 import az.etaskify.exception.UserNotExistException;
@@ -9,6 +9,9 @@ import az.etaskify.model.Task;
 import az.etaskify.model.User;
 import az.etaskify.repository.TaskRepository;
 import az.etaskify.repository.UserRepository;
+import az.etaskify.service.EmailService;
+import az.etaskify.service.OrganizationService;
+import az.etaskify.service.TaskService;
 import az.etaskify.util.SecurityContextUtility;
 import az.etaskify.util.ValidationObjects;
 import java.util.List;
@@ -45,7 +48,7 @@ public class TaskServiceImpl implements TaskService {
         Task task = TaskMapper.INSTANCE.toEntity(taskDto);
         userRepository.findUserEntityByEmail(SecurityContextUtility.getLoggedUsername());
         Optional<User> optionalUser = userRepository.findUserEntityByEmail(SecurityContextUtility.getLoggedUsername());
-        task.setCreatedBy(optionalUser.get());
+        task.setCreatedBy(optionalUser.orElseThrow());
         task.setAssignees(assignees);
         task.setOrganization(organization);
         taskRepository.save(task);

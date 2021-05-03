@@ -1,12 +1,13 @@
-package az.etaskify.service;
+package az.etaskify.service.impl;
 
 
+import az.etaskify.service.PasswordService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 @Service
- public  class PasswordServiceImpl implements  PasswordService {
+ public  class PasswordServiceImpl implements PasswordService {
 
     private static BCryptPasswordEncoder passwordEcorder = new BCryptPasswordEncoder();
 

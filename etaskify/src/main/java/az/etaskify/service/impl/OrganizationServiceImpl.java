@@ -1,4 +1,4 @@
-package az.etaskify.service;
+package az.etaskify.service.impl;
 
 import az.etaskify.dto.OrganizationDto;
 import az.etaskify.enums.AuthorityName;
@@ -9,8 +9,11 @@ import az.etaskify.model.Organization;
 import az.etaskify.model.User;
 import az.etaskify.repository.OrganizationRepository;
 import az.etaskify.repository.UserRepository;
+import az.etaskify.service.OrganizationService;
+import az.etaskify.service.PasswordService;
 import az.etaskify.util.ValidationObjects;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrganizationServiceImpl implements OrganizationService {
 
     private final OrganizationRepository organizationRepository;
@@ -46,21 +50,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public Organization findOrganizationByOwnerId(Long userId) {
-        try {
             return organizationRepository.findOrganizationByOwnerId(userId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+
     }
 
     @Override
     public Organization findOrganizationByEmail(String email) {
-        try {
             return organizationRepository.findOrganizationByEmail(email);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+
     }
 }

@@ -1,4 +1,4 @@
-package az.etaskify.service;
+package az.etaskify.service.impl;
 
 import az.etaskify.dto.UserDto;
 import az.etaskify.enums.AuthorityName;
@@ -6,6 +6,9 @@ import az.etaskify.mapper.UserMapper;
 import az.etaskify.model.Organization;
 import az.etaskify.repository.UserRepository;
 import az.etaskify.model.User;
+import az.etaskify.service.OrganizationService;
+import az.etaskify.service.PasswordService;
+import az.etaskify.service.UserService;
 import az.etaskify.util.SecurityContextUtility;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +42,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public ResponseEntity<UserDto> saveOrUpdateUser(UserDto userDto) {
-        try {
             User user = UserMapper.INSTANCE.toEntity(userDto);
             Organization organization = organizationService.findOrganizationByEmail(SecurityContextUtility.getLoggedUsername());
             user.setOrganization(organization);
@@ -47,10 +49,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.setPassword(passwordService.bcryptEncryptor(environment.getProperty("")));
             UserMapper.INSTANCE.toDto(userRepository.save(user));
             return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (Exception e) {
-
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @Override

@@ -1,6 +1,6 @@
 package az.etaskify.exception;
 
-public class UserNotExistException extends RuntimeException {
+public class UserNotExistException extends BaseException {
 
     public UserNotExistException() {
         super();

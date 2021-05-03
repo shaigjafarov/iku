@@ -12,15 +12,13 @@ import java.time.format.DateTimeParseException;
 
 public class LocalDateTimeSerializer extends JsonSerializer<LocalDateTime> {
     static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+
     @Override
     public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider provider)
             throws IOException {
-        try {
-            String s = value.format(DATE_FORMATTER);
-            gen.writeString(s);
-        } catch (DateTimeParseException e) {
-            System.err.println(e);
-            gen.writeString("");
-        }
+
+        String s = value.format(DATE_FORMATTER);
+        gen.writeString(s);
+
     }
 }
