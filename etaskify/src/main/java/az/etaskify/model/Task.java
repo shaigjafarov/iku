@@ -1,16 +1,25 @@
 package az.etaskify.model;
 
 import az.etaskify.enums.Status;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
-
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
+@EqualsAndHashCode(callSuper = false, exclude = {"assignees", "createdBy", "organization"})
 public class Task extends AbstractEntity {
 
     @Id
@@ -27,7 +36,7 @@ public class Task extends AbstractEntity {
 
     @ManyToMany
     @JoinTable(name = "task_assignees")
-    private List<User> assignees= new ArrayList<>();
+    private List<User> assignees = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -35,6 +44,7 @@ public class Task extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "organization_id")
+    @JsonIgnore
     private Organization organization;
 
 }
