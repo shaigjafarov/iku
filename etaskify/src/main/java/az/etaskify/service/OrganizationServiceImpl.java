@@ -28,7 +28,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public ResponseEntity<Organization> saveOrganization(OrganizationDto organizationDto) {
-        ValidationObjects.controlObjectNotNull(organizationDto.getOwnerDto());
+        ValidationObjects.controlObjectNotNull(organizationDto.getOwnerDto(),"OwnerDto does not exist");
         String rawPassword = organizationDto.getOwnerDto().getPassword();
         String email = organizationDto.getOwnerDto().getEmail();
         if (userRepository.findUserEntityByEmail(email).isPresent()) {

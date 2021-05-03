@@ -9,10 +9,10 @@ import java.util.Objects;
 
 public class ValidationObjects {
 
-    public static void controlObjectNotNull(Object object){
-        if (object!=null){
+    public static void controlObjectNotNull(Object object,String exceptionMessage){
+        if (object==null){
             throw new ApiValidationException(
-                    Collections.singletonList(new InvalidParamsItem(object.getClass().getName(), "does not exist"))
+                    Collections.singletonList(new InvalidParamsItem("Object is null", exceptionMessage))
             );
         }
 

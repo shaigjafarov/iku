@@ -29,7 +29,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public ResponseEntity saveOrUpdateTaskByOwner(TaskDto taskDto, Long id) {
         Organization organization = organizationService.findOrganizationByOwnerId(id);
-        ValidationObjects.controlObjectNotNull(organization);
+        ValidationObjects.controlObjectNotNull(organization,"Organization does not exist");
         List<User> organizationUsers = organization.getUsers();
         List<User> assignees = UserMapper.INSTANCE.toUserList(taskDto.getUserDtoList());
         checkUsersExist(organizationUsers, assignees);
