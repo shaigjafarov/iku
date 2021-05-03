@@ -1,0 +1,31 @@
+version: '3.3'
+services:
+  etaskify-db:
+    container_name: etaskify-db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: etaskify
+      MYSQL_USER: etaskify
+      MYSQL_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: securedP@ssword
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+
+  etaskify-app:
+    container_name: etaskify-app
+    depends_on: [ etaskify-db ]
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: "jdbc:mysql://etaskify-db:3306/etaskify?useSSL=false&serverTimezone=Asia/Baku"
+      SPRING_DATASOURCE_USERNAME: etaskify
+
+volumes:
+  my-db:
