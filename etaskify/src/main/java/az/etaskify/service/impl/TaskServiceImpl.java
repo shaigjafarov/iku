@@ -46,7 +46,6 @@ public class TaskServiceImpl implements TaskService {
         checkUsersExist(organizationUsers, assignees);
 
         Task task = TaskMapper.INSTANCE.toEntity(taskDto);
-        userRepository.findUserEntityByEmail(SecurityContextUtility.getLoggedUsername());
         Optional<User> optionalUser = userRepository.findUserEntityByEmail(SecurityContextUtility.getLoggedUsername());
         task.setCreatedBy(optionalUser.orElseThrow());
         task.setAssignees(assignees);
@@ -64,7 +63,6 @@ public class TaskServiceImpl implements TaskService {
                 task.getTitle(),
                 task.getDescription(),
                 task.getAssignees().stream().map(User::getEmail).collect(Collectors.toList())
-                        .toArray(String[]::new)
         );
     }
 
@@ -81,7 +79,6 @@ public class TaskServiceImpl implements TaskService {
         if (userList.isEmpty()) {
             throw new UserNotExistException(userList.toString());
         }
-
 
     }
 }

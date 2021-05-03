@@ -2,6 +2,7 @@ package az.etaskify.service;
 
 import az.etaskify.config.JwtTokenUtil;
 import az.etaskify.dto.AuthRequest;
+import az.etaskify.exception.InvalidCredentialsExceptions;
 import az.etaskify.service.impl.AuthenticationServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,8 @@ class AuthenticationServiceTest {
                 }
         ).when(authenticationManager).authenticate(any());
 
-        Assertions.assertThrows(BadCredentialsException.class, () -> authenticationService.authenticate(new AuthRequest()));
+        Assertions.assertThrows(InvalidCredentialsExceptions.class,
+                () -> authenticationService.authenticate(new AuthRequest()));
 
     }
 

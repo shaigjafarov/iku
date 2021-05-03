@@ -7,16 +7,16 @@ import org.springframework.stereotype.Service;
 
 
 @Service
- public  class PasswordServiceImpl implements PasswordService {
+public class PasswordServiceImpl implements PasswordService {
 
-    private static BCryptPasswordEncoder passwordEcorder = new BCryptPasswordEncoder();
+    private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
     public String bcryptEncryptor(String plainText) {
-        return passwordEcorder.encode(plainText);
+        return passwordEncoder.encode(plainText);
     }
 
-    public Boolean doPasswordsMatch(String rawPassword,String encodedPassword) {
-        return passwordEcorder.matches(rawPassword, encodedPassword);
+    public Boolean doPasswordsMatch(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }
