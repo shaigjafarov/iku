@@ -1,6 +1,5 @@
 package az.etaskify.mapper;
 
-import az.etaskify.dto.UserDto;
 import az.etaskify.dto.UserOwnerDto;
 import az.etaskify.model.User;
 import org.mapstruct.Mapper;
@@ -17,7 +16,7 @@ public interface UserOwnerMapper {
 
     List<User> toUserList(List<UserOwnerDto> userOwnerDtos);
 
-    User toEntity (UserOwnerDto userOwnerDto);
+    User toEntity(UserOwnerDto userOwnerDto);
 
     UserOwnerDto toDto(User user);
 }

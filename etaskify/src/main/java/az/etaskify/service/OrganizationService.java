@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface OrganizationService {
 
-    ResponseEntity<Organization> saveOrganization(OrganizationDto organizationDto);
+    String saveOrganization(OrganizationDto organizationDto);
 
     Organization findOrganizationByOwnerId(Long userId);
 

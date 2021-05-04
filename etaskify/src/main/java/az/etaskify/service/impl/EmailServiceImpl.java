@@ -2,14 +2,15 @@ package az.etaskify.service.impl;
 
 import az.etaskify.exception.EmailException;
 import az.etaskify.service.EmailService;
-import java.util.Collection;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor

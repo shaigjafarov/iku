@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,15 +40,15 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({BaseException.class})
     public ResponseEntity<Object> baseException(
             final UserNotExistException ex) {
-        log.error("Exception occurred" ,ex);
-        return new ResponseEntity<>( ex.getMessage(), HttpStatus.BAD_REQUEST);
+        log.error("Exception occurred", ex);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({Exception.class})
-    public ResponseEntity<Object> globalExceptions (
+    public ResponseEntity<Object> globalExceptions(
             final Exception ex) {
-        log.error("Exception occurred" ,ex);
-        return new ResponseEntity<>( ex.getMessage(), HttpStatus.BAD_REQUEST);
+        log.error("Exception occurred", ex);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 

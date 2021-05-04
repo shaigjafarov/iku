@@ -10,7 +10,7 @@
     </parent>
     <groupId>az.etaskify</groupId>
     <artifactId>etaskify</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>etaskify</name>
     <description>Task manager platform</description>
     <properties>

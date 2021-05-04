@@ -2,25 +2,15 @@ package az.etaskify.model;
 
 import az.etaskify.enums.AuthorityName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Collection;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.Email;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @Entity
@@ -61,6 +51,12 @@ public class User extends AbstractEntity implements UserDetails {
 
     public User(Long id) {
         this.id = id;
+    }
+
+    public User(String name, String surname, @Email String email) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
     }
 
     @Override

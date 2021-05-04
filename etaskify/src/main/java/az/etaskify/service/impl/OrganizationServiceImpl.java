@@ -14,8 +14,6 @@ import az.etaskify.service.PasswordService;
 import az.etaskify.util.ValidationObjects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -32,7 +30,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 
     @Override
-    public ResponseEntity<Organization> saveOrganization(OrganizationDto organizationDto) {
+    public String saveOrganization(OrganizationDto organizationDto) {
         ValidationObjects.controlObjectNotNull(organizationDto.getOwnerDto(), "Owner does not null.");
         String rawPassword = organizationDto.getOwnerDto().getPassword();
         if (userRepository.findUserEntityByEmail(organizationDto.getOwnerDto().getEmail()).isPresent()) {
@@ -44,19 +42,19 @@ public class OrganizationServiceImpl implements OrganizationService {
         user.setOrganization(organization);
         user.setAuthority(AuthorityName.ROLE_ADMIN);
         organization.setUsers(Collections.singletonList(user));
-        Organization organizationInDb = organizationRepository.save(organization);
-        return new ResponseEntity<>(organizationInDb, HttpStatus.OK);
+        organizationRepository.save(organization);
+        return "Organization created successful";
     }
 
     @Override
     public Organization findOrganizationByOwnerId(Long userId) {
-            return organizationRepository.findOrganizationByOwnerId(userId);
+        return organizationRepository.findOrganizationByOwnerId(userId);
 
     }
 
     @Override
     public Organization findOrganizationByEmail(String email) {
-            return organizationRepository.findOrganizationByEmail(email);
+        return organizationRepository.findOrganizationByEmail(email);
 
     }
 }

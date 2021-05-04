@@ -4,19 +4,15 @@ import az.etaskify.dto.UserDto;
 import az.etaskify.enums.AuthorityName;
 import az.etaskify.mapper.UserMapper;
 import az.etaskify.model.Organization;
-import az.etaskify.repository.UserRepository;
 import az.etaskify.model.User;
+import az.etaskify.repository.UserRepository;
 import az.etaskify.service.OrganizationService;
 import az.etaskify.service.PasswordService;
 import az.etaskify.service.UserService;
 import az.etaskify.util.SecurityContextUtility;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +21,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public ResponseEntity<UserDto> saveOrUpdateUser(UserDto userDto) {
+    public String saveOrUpdateUser(UserDto userDto) {
         User user = UserMapper.INSTANCE.toEntity(userDto);
         Organization organization =
                 organizationService.findOrganizationByEmail(SecurityContextUtility.getLoggedUsername());
@@ -49,16 +48,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setAuthority(AuthorityName.ROLE_USER);
         user.setPassword(passwordService.bcryptEncryptor(defaultPassword));
         UserMapper.INSTANCE.toDto(userRepository.save(user));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return "User created successful";
     }
 
     @Override
-    public ResponseEntity<List<UserDto>> organizationUsers() {
+    public List<UserDto> organizationUsers() {
         Organization organization =
                 organizationService.findOrganizationByEmail(SecurityContextUtility.getLoggedUsername());
         List<User> userList = organization.getUsers();
         List<UserDto> userDtoList = UserMapper.INSTANCE.toUserDtoList(userList);
-        return new ResponseEntity<>(userDtoList, HttpStatus.OK);
+        return userDtoList;
     }
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

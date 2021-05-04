@@ -1,12 +1,14 @@
 package az.etaskify.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 
 @Data
+@NoArgsConstructor
 public class UserDto {
     private Long id;
     @NotBlank
@@ -16,7 +18,9 @@ public class UserDto {
     @Email
     private String email;
 
-
-
-
+    public UserDto(@NotBlank String name, @NotBlank String surname, @Email String email) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+    }
 }

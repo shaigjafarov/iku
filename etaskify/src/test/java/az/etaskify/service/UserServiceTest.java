@@ -5,10 +5,14 @@ import static org.mockito.Mockito.when;
 
 import az.etaskify.dto.UserDto;
 import az.etaskify.enums.AuthorityName;
+import az.etaskify.mapper.UserMapper;
 import az.etaskify.model.Organization;
 import az.etaskify.model.User;
 import az.etaskify.repository.UserRepository;
 import az.etaskify.service.impl.UserServiceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,13 +43,16 @@ class UserServiceTest {
         when(organizationService.findOrganizationByEmail(any())).thenReturn(new Organization());
         when(passwordService.bcryptEncryptor(any())).thenReturn("encoded");
         when(userRepository.save(any())).thenAnswer(i -> i.getArgument(0));
-        Assertions.assertEquals(HttpStatus.CREATED, userService.saveOrUpdateUser(new UserDto()).getStatusCode());
+        Assertions.assertEquals("User created successful", userService.saveOrUpdateUser(new UserDto()));
     }
 
     @Test
     void givenEmailWhenFindOrganizationByEmailThenReturnUsersOfTheOrg() {
-        when(organizationService.findOrganizationByEmail(any())).thenReturn(new Organization());
-        Assertions.assertEquals(HttpStatus.OK, userService.organizationUsers().getStatusCode());
+        Organization organization = new Organization();
+        organization.setUsers(List.of(new User("name", "surname", "mail@gmail.com")));
+        List<UserDto> userDtoList = List.of(new UserDto("name", "surname", "mail@gmail.com"));
+        when(organizationService.findOrganizationByEmail(any())).thenReturn(organization);
+        Assertions.assertEquals(userDtoList, userService.organizationUsers());
     }
 
     @Test

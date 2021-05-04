@@ -14,15 +14,16 @@ import az.etaskify.service.OrganizationService;
 import az.etaskify.service.TaskService;
 import az.etaskify.util.SecurityContextUtility;
 import az.etaskify.util.ValidationObjects;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -44,7 +45,6 @@ public class TaskServiceImpl implements TaskService {
         List<User> organizationUsers = organization.getUsers();
         List<User> assignees = UserMapper.INSTANCE.toUserList(taskDto.getUserDtoList());
         checkUsersExist(organizationUsers, assignees);
-
         Task task = TaskMapper.INSTANCE.toEntity(taskDto);
         Optional<User> optionalUser = userRepository.findUserEntityByEmail(SecurityContextUtility.getLoggedUsername());
         task.setCreatedBy(optionalUser.orElseThrow());
@@ -56,7 +56,6 @@ public class TaskServiceImpl implements TaskService {
         }
         return new ResponseEntity<>("Task is created successful", HttpStatus.CREATED);
     }
-
 
     private void sendMailTaskAssigned(Task task) {
         emailService.sendMail(

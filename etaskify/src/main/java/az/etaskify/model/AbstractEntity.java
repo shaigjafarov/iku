@@ -6,8 +6,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
+
 @MappedSuperclass
-public abstract  class AbstractEntity {
+public abstract class AbstractEntity {
     @CreationTimestamp
     protected LocalDateTime createdAt;
     @UpdateTimestamp

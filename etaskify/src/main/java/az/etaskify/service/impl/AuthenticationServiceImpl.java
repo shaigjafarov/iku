@@ -8,7 +8,6 @@ import az.etaskify.exception.InvalidCredentialsExceptions;
 import az.etaskify.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +29,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new InvalidCredentialsExceptions("Username or password is incorrect", e);
         }
 
-    String token = jwtTokenUtil.generateToken(authRequest.getEmail());
+        String token = jwtTokenUtil.generateToken(authRequest.getEmail());
 
         return AuthToken
                 .builder()
                 .token(token)
                 .username(authRequest.getEmail())
-            .build();
+                .build();
     }
 }

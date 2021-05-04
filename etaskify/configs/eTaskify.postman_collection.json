@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "03b66b74-778f-4644-8ff6-63f2a8b43115",
+		"name": "eTaskify",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sign-in user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"emil.s@gmail.com\",\r\n    \"password\": \"Emil1dfnsk9erjki8h9usd2345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/etaskify/auth/sign-in",
+				"description": "Sign-in user "
+			},
+			"response": []
+		},
+		{
+			"name": "Organization tasks",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWlsLnNAZ21haWwuY29tIiwic2NvcGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlzcyI6IklCQVIiLCJpYXQiOjE2MjAxMTczNTcsImV4cCI6MTYyMDE2MDU1N30.kd2NPSxBVegutTs7jf-zjrWQ6jdZXdgSwgs2O0skMxdLkgZr4JMyl_yKqNdaeic1M7T-sm00sMiYpUuEQUcwzg"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/etaskify/task/organization/tasks",
+				"description": "All task in organization"
+			},
+			"response": []
+		},
+		{
+			"name": "Organization users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWlsLnNAZ21haWwuY29tIiwic2NvcGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlzcyI6IklCQVIiLCJpYXQiOjE2MjAxMTczNTcsImV4cCI6MTYyMDE2MDU1N30.kd2NPSxBVegutTs7jf-zjrWQ6jdZXdgSwgs2O0skMxdLkgZr4JMyl_yKqNdaeic1M7T-sm00sMiYpUuEQUcwzg"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/etaskify/user/organization/users"
+			},
+			"response": []
+		},
+		{
+			"name": "User registration organization by admin user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWlsLnNAZ21haWwuY29tIiwic2NvcGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlzcyI6IklCQVIiLCJpYXQiOjE2MjAxMTczNTcsImV4cCI6MTYyMDE2MDU1N30.kd2NPSxBVegutTs7jf-zjrWQ6jdZXdgSwgs2O0skMxdLkgZr4JMyl_yKqNdaeic1M7T-sm00sMiYpUuEQUcwzg"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"name\": \"John\",\r\n    \"email\":\"john.7@gmail.com\",\r\n    \"userName\": \"John\",\r\n    \"surname\": \"Mark\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/etaskify/user/save"
+			},
+			"response": []
+		},
+		{
+			"name": "Organization and owner sign-up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"Caspian\",\r\n \"phoneNumber\":\"(703) 522-2214\",\r\n \"address\":\"1270 NW 165th Street\",\r\n\"ownerDto\":{\r\n    \"name\": \"Aydin\",\r\n    \"surname\":\"Samedov\",\r\n    \"email\": \"aydinn.samed@gmail.com\",\r\n    \"password\": \"aydin96\"\r\n\r\n\r\n}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/etaskify/organization/sign-up"
+			},
+			"response": []
+		},
+		{
+			"name": "Create task and assign it to one or more users ",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWlsLnNAZ21haWwuY29tIiwic2NvcGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlzcyI6IklCQVIiLCJpYXQiOjE2MjAxMTczNTcsImV4cCI6MTYyMDE2MDU1N30.kd2NPSxBVegutTs7jf-zjrWQ6jdZXdgSwgs2O0skMxdLkgZr4JMyl_yKqNdaeic1M7T-sm00sMiYpUuEQUcwzg"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"title\":\"billing page\",\r\n   \"description\":\"update dashboard\",\r\n   \"deadline\":\"11.05.2021 12:23:00\",\r\n   \"status\": \"CREATED\",\r\n      \"userDtoList\":[\r\n      {\r\n         \"id\":2,\r\n         \"name\":\"Elnusdfgr\",\r\n         \"surname\":\"eliwov\",\r\n         \"email\":\"eliw.semedov96@gmail.com\"\r\n      },\r\n       {\r\n         \"id\":3,\r\n         \"name\":\"Elnusdfgr\",\r\n         \"surname\":\"eliwov\",\r\n         \"email\":\"saiq.ceferov997@gmail.com\"\r\n      }\r\n      \r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/etaskify/task/save"
+			},
+			"response": []
+		}
+	]
+}
